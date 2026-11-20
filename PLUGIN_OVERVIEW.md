@@ -1,4 +1,4 @@
-Press Command–Option–K or the Spot Chat button in the sidebar footer to get a blank composer for a quick question, then get back to the thread you were in.
+Press Command–Option–S or the Spot Chat button in the sidebar footer to get a blank composer for a quick question, then get back to the thread you were in.
 
 ## What you get
 

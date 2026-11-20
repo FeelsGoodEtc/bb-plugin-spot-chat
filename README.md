@@ -13,7 +13,7 @@ BB builds the plugin on install. Requires bb 0.50 or later.
 
 ## Use
 
-The Spot Chat button in BB's left sidebar and Command–Option–K open a fresh BB
+The Spot Chat button in BB's left sidebar and Command–Option–S open a fresh BB
 composer. Choose the mode under **Settings → Spot Chat → Open Spot Chat in**.
 The shortcut is configurable under **Settings → Keyboard → Spot Chat: new window**.
 Choose Spot Chat's icon under **Settings → Spot Chat → Icon** from BB's built-in

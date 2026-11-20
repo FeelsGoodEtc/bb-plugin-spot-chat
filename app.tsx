@@ -426,7 +426,7 @@ export default definePluginApp((app) => {
   app.commands.register({
     id: "open",
     title: "Spot Chat: new window",
-    defaultShortcut: { key: "k", mod: true, alt: true },
+    defaultShortcut: { key: "s", mod: true, alt: true },
     run: requestChat,
   });
 });
