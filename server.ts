@@ -1,11 +1,18 @@
 import { execFile } from "node:child_process";
+import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import type { BbPluginApi } from "@get-bb/plugin-sdk";
 import { chatsTag, defaultIcon, defaultsTag, iconSchema, iconTag, modelSelectionSchema, rpcContract } from "./rpc";
 
 const run = promisify(execFile);
-const appPath = fileURLToPath(new URL("./.generated/Spot Chat.app", import.meta.url));
+// The prebuilt native window ships in macos/. The server runs from dist/ when
+// installed and from the plugin root under `bb plugin dev`, so try both.
+const appCandidates = ["../macos/Spot Chat.app", "./macos/Spot Chat.app"]
+  .map((relative) => fileURLToPath(new URL(relative, import.meta.url)));
+const missingAppMessage = "The Separate Window app (macos/Spot Chat.app) is missing from this plugin install. "
+  + "Choose Settings → Spot Chat → Open Spot Chat in → Inside BB, or rebuild it with `sh macos/build.sh` "
+  + "(needs the Xcode Command Line Tools) and reinstall the plugin.";
 const pluginId = "spot-chat";
 const dayMs = 24 * 60 * 60 * 1000;
 const defaultsKey = "model-defaults";
@@ -141,6 +148,8 @@ export default function spotChat(bb: BbPluginApi) {
       }
 
       const url = new URL("/plugins/spot-chat/window", bb.server.loopbackBaseUrl);
+      const appPath = appCandidates.find((candidate) => existsSync(candidate));
+      if (!appPath) throw new Error(missingAppMessage);
       await run("/usr/bin/open", ["-n", "-a", appPath, "--args", url.href]);
       return { mode: "separate-window" } as const;
     },

@@ -1,6 +1,13 @@
 {
   "name": "bb-plugin-spot-chat",
   "version": "0.1.0",
+  "description": "Open a fresh BB chat in a floating panel or a separate macOS window without leaving your current thread.",
+  "license": "MIT",
+  "author": "FeelsGoodEtc",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FeelsGoodEtc/bb-plugin-spot-chat.git"
+  },
   "type": "module",
   "engines": {
     "bb": ">=0.50",
@@ -8,7 +15,7 @@
   },
   "bb": {
     "name": "Spot Chat",
-    "description": "Open a fresh BB chat in a separate macOS window.",
+    "description": "Open a fresh BB chat in a floating panel or a separate macOS window without leaving your current thread.",
     "branding": {
       "icon": "SideChat"
     },

@@ -1,5 +1,18 @@
 # Spot Chat
 
+A BB plugin that opens a fresh chat in a floating panel or a separate macOS
+window, so a quick question does not interrupt the thread you are in.
+
+## Install
+
+```sh
+bb plugin install git:https://github.com/FeelsGoodEtc/bb-plugin-spot-chat@^0.1.0
+```
+
+BB builds the plugin on install. Requires bb 0.50 or later.
+
+## Use
+
 The Spot Chat button in BB's left sidebar and Command–Option–K open a fresh BB
 composer. Choose the mode under **Settings → Spot Chat → Open Spot Chat in**.
 The shortcut is configurable under **Settings → Keyboard → Spot Chat: new window**.
@@ -44,16 +57,45 @@ mobile app, and desktop apps connected to another machine always open
 **Inside BB**, whatever the setting says. The Inside BB panel remembers its size
 separately in each browser or app.
 
-## Local build
+## Native window
 
-Install the Xcode Command Line Tools, then run these commands from the plugin
-directory.
+**Separate Window** runs `macos/Spot Chat.app`, a prebuilt universal app
+(arm64 and x86_64, macOS 12 or later) committed to this repository with an
+ad-hoc signature. It contains only `macos/SpotChat.swift` compiled with
+`macos/build.sh`. If the app is missing, Spot Chat shows an error that suggests
+switching to **Inside BB**.
+
+To rebuild it, install the Xcode Command Line Tools and run:
+
+```sh
+sh macos/build.sh
+```
+
+## Experimental APIs
+
+Spot Chat relies on parts of BB that may change without notice:
+
+- experimental Plugin SDK APIs (names starting with `experimental_`): the
+  new-thread composer, provider/model picker, app overlay and sidebar footer
+  slots, icon registry, RPC query hooks and cache invalidation, and select
+  option labels;
+- the undocumented `window.bbDesktop` property, used to detect the BB desktop
+  app before offering **Separate Window**.
+
+A BB update can break either one until the plugin is updated. When that
+happens, choose **Inside BB** or reinstall a newer release.
+
+## Development
 
 ```sh
 npm ci
 node scripts/extract-icons.mjs   # refresh BB's icon list after BB updates
-sh macos/build.sh
+sh macos/build.sh                # only after changing macos/
 npm exec -- tsc --noEmit
 bb plugin build
-bb plugin install .
+bb plugin install . --yes
 ```
+
+## License
+
+[MIT](LICENSE)
