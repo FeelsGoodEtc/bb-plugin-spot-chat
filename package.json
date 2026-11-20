@@ -1,7 +1,7 @@
 {
   "name": "bb-plugin-spot-chat",
   "version": "0.1.0",
-  "description": "Open a fresh BB chat in a floating panel or a separate macOS window without leaving your current thread.",
+  "description": "Ask a quick question in a fresh BB chat without leaving your current thread. It opens as a panel inside BB that the same button or shortcut closes, or as a separate window (macOS only). It uses the model BB would pick for a new chat unless you choose one for Spot Chat.",
   "license": "MIT",
   "author": "FeelsGoodEtc",
   "repository": {
@@ -15,7 +15,7 @@
   },
   "bb": {
     "name": "Spot Chat",
-    "description": "Open a fresh BB chat in a floating panel or a separate macOS window without leaving your current thread.",
+    "description": "Ask a quick question in a fresh BB chat without leaving your current thread. It opens as a panel inside BB that the same button or shortcut closes, or as a separate window (macOS only). It uses the model BB would pick for a new chat unless you choose one for Spot Chat.",
     "branding": {
       "icon": "NewTab"
     },

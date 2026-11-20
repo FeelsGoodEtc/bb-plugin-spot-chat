@@ -46,11 +46,13 @@ Both lists delete a single conversation (trash icon, click twice), every
 conversation older than 7, 30 or 90 days, or all of them. Each delete asks for a
 second click.
 
-Spot Chat starts with BB's execution default for chats without a project. Choose
-a provider and model in **Settings → Spot Chat → Default model** or open
-**Spot Chat defaults** above the composer and select **Save default**. The
-composer's own model picker changes the current conversation. **Use BB default**
-clears the saved Spot Chat preference.
+By default Spot Chat uses the model BB would pick for a new chat without a
+project: the provider and model you last used there, otherwise BB's default
+provider and its default model. To pin a provider, model and reasoning level,
+use **Settings → Spot Chat → Default model** or open **Spot Chat defaults**
+above the composer and select **Save default**. The composer's own model
+picker changes only the current conversation. **Use BB default** clears the
+saved Spot Chat preference.
 
 **Separate Window** loads the loopback BB server using WebKit. It is only used
 from the BB desktop app on the Mac that runs the BB server. Web browsers, the
