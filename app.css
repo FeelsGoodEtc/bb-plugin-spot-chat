@@ -1,0 +1,582 @@
+.spot-chat-window {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.spot-chat-conversation {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.spot-chat-conversation-draft {
+  overflow: auto;
+}
+
+.spot-chat-floating {
+  --spot-chat-top: calc(var(--bb-app-chrome-row-height, 3rem) + var(--spot-chat-inset));
+  position: fixed;
+  top: var(--spot-chat-top);
+  right: var(--spot-chat-inset);
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  max-width: calc(100vw - 2 * var(--spot-chat-inset));
+  max-height: max(1px, calc(100dvh - var(--spot-chat-top) - var(--spot-chat-inset)));
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--background);
+  color: var(--foreground);
+  box-shadow: 0 10px 34px rgb(0 0 0 / 24%);
+}
+
+.spot-chat-resize {
+  position: absolute;
+  z-index: 1;
+  padding: 0;
+  touch-action: none;
+}
+
+.spot-chat-resize:focus-visible {
+  outline: 2px solid var(--ring);
+}
+
+.spot-chat-resize-left {
+  top: 12px;
+  bottom: 16px;
+  left: -5px;
+  width: 10px;
+  cursor: ew-resize;
+}
+
+.spot-chat-resize-bottom {
+  right: 12px;
+  bottom: -5px;
+  left: 16px;
+  height: 10px;
+  cursor: ns-resize;
+}
+
+.spot-chat-resize-corner {
+  bottom: -5px;
+  left: -5px;
+  width: 20px;
+  height: 20px;
+  cursor: nesw-resize;
+}
+
+.spot-chat-resize-corner::after {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  width: 7px;
+  height: 7px;
+  border-bottom: 1px solid var(--muted-foreground);
+  border-left: 1px solid var(--muted-foreground);
+  border-bottom-left-radius: 3px;
+  opacity: 0.55;
+  pointer-events: none;
+  content: "";
+}
+
+.spot-chat-compose {
+  flex: none;
+  margin-top: auto;
+  padding: 16px;
+}
+
+.spot-chat-new-composer {
+  height: auto;
+}
+
+.spot-chat-thread {
+  min-height: 0;
+  flex: 1;
+  margin-bottom: 12px;
+}
+
+.spot-chat-defaults-disclosure {
+  width: min(100%, 48rem);
+  margin: 0 auto 8px;
+  font-size: 12px;
+}
+
+.spot-chat-defaults-disclosure summary {
+  width: fit-content;
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+
+
+
+
+
+.spot-chat-defaults-button {
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 12px;
+}
+
+.spot-chat-defaults-button:enabled:hover {
+  background: var(--muted);
+  cursor: pointer;
+}
+
+.spot-chat-defaults-button:disabled {
+  opacity: 0.55;
+}
+
+.spot-chat-launch-error {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  z-index: 60;
+  display: flex;
+  gap: 16px;
+  max-width: min(600px, calc(100% - 32px));
+  padding: 12px 16px;
+  transform: translateX(-50%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--popover);
+  color: var(--popover-foreground);
+}
+
+.spot-chat-shell {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+}
+
+.spot-chat-toolbar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.spot-chat-toolbar-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  padding-inline: 4px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.spot-chat-tool {
+  position: relative;
+  display: grid;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 5px;
+  color: var(--muted-foreground);
+  cursor: pointer;
+}
+
+.spot-chat-tool:hover,
+.spot-chat-tool-active {
+  background: var(--muted);
+  color: var(--foreground);
+}
+
+.spot-chat-tool svg,
+.spot-chat-row-delete svg,
+.spot-chat-button svg {
+  width: 16px;
+  height: 16px;
+}
+
+.spot-chat-list-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.spot-chat-list {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  font-size: 13px;
+}
+
+.spot-chat-cleanup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.spot-chat-cleanup label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+
+.spot-chat-cleanup select {
+  padding: 3px 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.spot-chat-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.spot-chat-button:enabled:hover {
+  background: var(--muted);
+  cursor: pointer;
+}
+
+.spot-chat-button:disabled,
+.spot-chat-row-delete:disabled {
+  opacity: 0.5;
+}
+
+.spot-chat-button-danger,
+.spot-chat-button-danger:enabled:hover,
+.spot-chat-row-delete.spot-chat-button-danger:enabled:hover {
+  padding: 5px 12px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: var(--destructive, #b3001b);
+  color: #fff;
+  font-weight: 600;
+  opacity: 1;
+}
+
+.spot-chat-button-danger:enabled:hover {
+  filter: brightness(0.92);
+}
+
+.spot-chat-list-status {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+
+.spot-chat-rows {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.spot-chat-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 6px;
+}
+
+.spot-chat-row:hover,
+.spot-chat-row-active {
+  background: var(--muted);
+}
+
+.spot-chat-row-open {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  gap: 2px;
+  padding: 6px 8px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.spot-chat-row-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.spot-chat-row-meta {
+  color: var(--muted-foreground);
+  font-size: 11px;
+}
+
+.spot-chat-row-delete {
+  display: grid;
+  flex: none;
+  min-width: 28px;
+  height: 28px;
+  margin-right: 4px;
+  padding-inline: 6px;
+  place-items: center;
+  border-radius: 5px;
+  color: var(--muted-foreground);
+  font-size: 12px;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.spot-chat-row:hover .spot-chat-row-delete,
+.spot-chat-row-delete:focus-visible,
+.spot-chat-row-delete.spot-chat-button-danger {
+  opacity: 1;
+}
+
+.spot-chat-row-delete:enabled:hover {
+  color: var(--foreground);
+}
+
+.spot-chat-panel {
+  width: min(100%, 48rem);
+  margin: 0 auto;
+  padding: 8px 4px;
+}
+
+.spot-chat-panel-thread {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
+}
+
+.spot-chat-panel-bar {
+  display: flex;
+  flex: none;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 12px 8px;
+}
+
+.spot-chat-panel-hint {
+  margin: 0;
+  padding: 0 12px;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+
+@media (hover: none) {
+  .spot-chat-row-delete {
+    opacity: 1;
+  }
+}
+
+.spot-chat-brand {
+  display: grid;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  color: var(--foreground);
+}
+
+.spot-chat-brand svg {
+  width: 18px;
+  height: 18px;
+}
+
+
+
+
+
+.spot-chat-icon-current {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.spot-chat-icon-current:hover {
+  background: var(--muted);
+}
+
+.spot-chat-icon-current svg {
+  width: 18px;
+  height: 18px;
+}
+
+.spot-chat-icon-current svg:last-child {
+  width: 14px;
+  height: 14px;
+  color: var(--muted-foreground);
+}
+
+.spot-chat-icon-popover {
+  position: absolute;
+  top: calc(100% - 8px);
+  right: 16px;
+  z-index: 50;
+  display: grid;
+  gap: 8px;
+  width: min(380px, calc(100vw - 32px));
+  margin-top: -4px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--popover, var(--background));
+  color: var(--popover-foreground, var(--foreground));
+  box-shadow: 0 10px 30px rgb(0 0 0 / 18%);
+}
+
+.spot-chat-icon-popover input {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 13px;
+}
+
+.spot-chat-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+  gap: 4px;
+  max-height: 280px;
+  overflow: auto;
+}
+
+.spot-chat-icon-grid p {
+  grid-column: 1 / -1;
+}
+
+.spot-chat-icon-option {
+  display: grid;
+  height: 36px;
+  place-items: center;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.spot-chat-icon-option:hover {
+  background: var(--muted);
+}
+
+.spot-chat-icon-option-active {
+  outline: 2px solid var(--ring, var(--foreground));
+  outline-offset: -2px;
+  background: var(--muted);
+}
+
+.spot-chat-icon-option svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* BB draws its sidebar toggle in a separate top layer on narrow windows. The
+   standalone Spot Chat window has no BB sidebar, so hide that control there. */
+body:has(.spot-chat-window) div[class*="safe-area-inset-left"]:has(> button[aria-label^="Toggle sidebar"]),
+body:has(.spot-chat-window) button[aria-label^="Toggle sidebar"] {
+  display: none !important;
+}
+
+.spot-chat-settings-card {
+  position: relative;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+.spot-chat-settings-card [role="alert"],
+.spot-chat-settings-card [role="status"] {
+  margin: 0;
+  padding: 0 16px 12px;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+
+.spot-chat-setting-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 20px;
+  padding: 16px;
+}
+
+.spot-chat-setting-text {
+  display: grid;
+  flex: 1 1 14rem;
+  gap: 2px;
+  min-width: 0;
+}
+
+.spot-chat-setting-label {
+  margin: 0;
+  color: var(--foreground);
+  font-size: 14px;
+}
+
+.spot-chat-setting-description {
+  margin: 0;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+
+.spot-chat-setting-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.spot-chat-defaults-disclosure .spot-chat-setting-row {
+  padding: 8px 0;
+}
+
+.spot-chat-defaults-disclosure .spot-chat-setting-controls {
+  justify-content: flex-start;
+}
+
+.spot-chat-tool[data-tooltip]::after {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 20;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--popover, var(--background));
+  box-shadow: 0 4px 14px rgb(0 0 0 / 20%);
+  color: var(--popover-foreground, var(--foreground));
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease 0ms;
+  content: attr(data-tooltip);
+}
+
+.spot-chat-tool[data-tooltip]:hover::after,
+.spot-chat-tool[data-tooltip]:focus-visible::after {
+  opacity: 1;
+  transition-delay: 350ms;
+}
