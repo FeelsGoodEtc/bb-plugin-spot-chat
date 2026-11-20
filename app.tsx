@@ -17,6 +17,7 @@ import { rpcContract, type ModelSelection } from "./rpc";
 import { IconSettings, SpotChatIconGlyph } from "./icon-picker";
 import { FloatingPanel } from "./floating-panel";
 import packageJson from "./package.json";
+import { currentPlatform, defaultShortcut, missedByBb, type Shortcut } from "./shortcut";
 import "./app.css";
 
 const launchRequests = new EventTarget();
@@ -112,6 +113,39 @@ function WindowLauncher() {
     return () => {
       disposed = true;
       launchRequests.removeEventListener("open", openChat);
+    };
+  }, [rpc]);
+
+  useEffect(() => {
+    // Catch the shortcut on keyboard layouts where BB reads another letter.
+    // Re-read the binding whenever the window regains focus, so a change
+    // under Settings → Keyboard applies without a reload.
+    const platform = currentPlatform();
+    let shortcut: Shortcut | null = defaultShortcut;
+    let disposed = false;
+    function refresh() {
+      void rpc.call("getShortcut", platform).then((result) => {
+        if (!disposed) shortcut = result.shortcut;
+      }).catch(() => undefined);
+    }
+    function onKeyDown(event: KeyboardEvent) {
+      if (!shortcut || !missedByBb(event, shortcut, platform)) return;
+      event.preventDefault();
+      event.stopPropagation();
+      requestChat();
+    }
+    function onVisibility() {
+      if (document.visibilityState === "visible") refresh();
+    }
+    refresh();
+    window.addEventListener("keydown", onKeyDown, true);
+    window.addEventListener("focus", refresh);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      disposed = true;
+      window.removeEventListener("keydown", onKeyDown, true);
+      window.removeEventListener("focus", refresh);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [rpc]);
 
@@ -442,7 +476,7 @@ export default definePluginApp((app) => {
   app.commands.register({
     id: "open",
     title: "Spot Chat: new window",
-    defaultShortcut: { key: "s", mod: true, alt: true },
+    defaultShortcut,
     run: requestChat,
   });
 });

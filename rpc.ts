@@ -1,6 +1,7 @@
 import { defineRpcContract } from "@get-bb/plugin-sdk";
 import { z } from "zod";
 import { bbIconNames } from "./icons.generated";
+import { platformSchema, shortcutSchema } from "./shortcut";
 
 const selectionId = z.string().min(1).max(1024);
 export const modelSelectionSchema = z.object({
@@ -51,4 +52,6 @@ export const rpcContract = defineRpcContract({
   getDefaults: { input: z.null(), output: defaultsResult, tags: () => [defaultsTag] },
   saveDefaults: { input: modelSelectionSchema.nullable(), output: defaultsResult },
   getBbDefault: { input: z.null(), output: defaultsResult },
+  /** The effective "open" shortcut for a platform, or null when the user unbound it. */
+  getShortcut: { input: platformSchema, output: z.object({ shortcut: shortcutSchema.nullable() }) },
 });

@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
 import type { BbPluginApi } from "@get-bb/plugin-sdk";
 import { chatsTag, defaultIcon, defaultsTag, iconSchema, iconTag, modelSelectionSchema, rpcContract } from "./rpc";
+import { defaultShortcut, openCommandBinding } from "./shortcut";
 
 const run = promisify(execFile);
 // The prebuilt native window ships in macos/. The server runs from dist/ when
@@ -99,6 +100,13 @@ export default function spotChat(bb: BbPluginApi) {
           ...(previous && remembered ? { serviceTier: remembered.serviceTier } : {}),
         },
       };
+    },
+    async getShortcut(platform) {
+      const { keybindingOverrides } = await bb.sdk.system.config();
+      const overrides = keybindingOverrides.filter(({ command }) => command === openCommandBinding);
+      const override = overrides.find((entry) => entry.platform === platform)
+        ?? overrides.find((entry) => entry.platform === undefined);
+      return { shortcut: override ? override.shortcut : defaultShortcut };
     },
     async listChats() {
       const chats = await listChats();

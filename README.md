@@ -16,6 +16,8 @@ BB builds the plugin on install. Requires bb 0.50 or later.
 The Spot Chat button in BB's left sidebar and Command–Option–S open a fresh BB
 composer. Choose the mode under **Settings → Spot Chat → Open Spot Chat in**.
 The shortcut is configurable under **Settings → Keyboard → Spot Chat: new window**.
+The shortcut follows the physical keys, so it also works on layouts such as
+Russian, where macOS reports Command–Option–S as another letter.
 Choose Spot Chat's icon under **Settings → Spot Chat → Icon** from BB's built-in
 icon set. It appears on the sidebar footer button, in the navigation rail, and in
 the Spot Chat window and panel header.
