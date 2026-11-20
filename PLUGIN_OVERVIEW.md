@@ -3,7 +3,7 @@ Press Command–Option–S or the Spot Chat button in the sidebar footer to get 
 ## What you get
 
 - **A blank draft on every launch.** Sending the first message creates a hidden BB thread with the project, environment and model picked in the composer. Hidden threads stay out of the sidebar thread list.
-- **Two ways to open it.** Inside BB opens a floating panel at the right, below the title bar; drag its left edge, bottom edge or corner to resize it, and press the shortcut again to close it. Separate Window opens a resizable macOS window on the display under the mouse pointer and remembers its size.
+- **Two ways to open it.** Inside BB, the default, opens a floating panel at the right, below the title bar; drag its left edge, bottom edge or corner to resize it, and press the shortcut again to close it. Separate Window opens a resizable macOS window on the display under the mouse pointer and remembers its size.
 - **All past conversations in one list.** The Spot Chats panel in the navigation rail, and the clock button in the Spot Chat header, list every Spot Chat conversation. Continue one in place or open it as a regular thread.
 - **Cleanup.** Delete one conversation, everything older than 7, 30 or 90 days, or all of them. Every delete needs a second click.
 - **Your own defaults.** Pick a default provider and model for Spot Chat, and an icon from BB's built-in set for the footer button, the rail and the header.

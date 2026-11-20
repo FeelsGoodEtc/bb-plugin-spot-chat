@@ -20,14 +20,15 @@ Choose Spot Chat's icon under **Settings → Spot Chat → Icon** from BB's buil
 icon set. It appears on the sidebar footer button, in the navigation rail, and in
 the Spot Chat window and panel header.
 
-- **Separate Window** (default) opens a resizable macOS window on the display
-  beneath the mouse pointer, at the right with room above it for the BB title bar.
-  It restores its last resized
-  dimensions or starts at one third of the display's available width.
-- **Inside BB** opens a floating panel. Pressing the button or shortcut again
-  closes it. It appears at the right below BB's title bar. It starts above
-  the underlying composer, when present. Resize it from the left edge, bottom
-  edge, or bottom-left corner. The panel saves its own size in that BB client.
+- **Inside BB** (default) opens a floating panel. Pressing the button or
+  shortcut again closes it. It appears at the right below BB's title bar. It
+  starts above the underlying composer, when present. Resize it from the left
+  edge, bottom edge, or bottom-left corner. The panel saves its own size in
+  that BB client.
+- **Separate Window** opens a resizable macOS window on the display beneath
+  the mouse pointer, at the right with room above it for the BB title bar. It
+  restores its last resized dimensions or starts at one third of the display's
+  available width.
 
 Each launch gets a blank draft. Sending the first message creates a hidden BB
 thread, using the project, environment and model chosen in the composer. Hidden

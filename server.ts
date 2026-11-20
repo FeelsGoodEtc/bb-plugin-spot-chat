@@ -28,7 +28,7 @@ export default function spotChat(bb: BbPluginApi) {
         "separate-window": "Separate Window",
         "inside-bb": "Inside BB",
       },
-      default: "separate-window",
+      default: "inside-bb",
     },
   });
 
