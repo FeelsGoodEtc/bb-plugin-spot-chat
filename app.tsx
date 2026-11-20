@@ -16,6 +16,7 @@ import { ChatList, chatTitle, useSpotChats } from "./chats";
 import { rpcContract, type ModelSelection } from "./rpc";
 import { IconSettings, SpotChatIconGlyph } from "./icon-picker";
 import { FloatingPanel } from "./floating-panel";
+import packageJson from "./package.json";
 import "./app.css";
 
 const launchRequests = new EventTarget();
@@ -225,6 +226,20 @@ function SpotChatSettings() {
   );
 }
 
+const repositoryUrl = "https://github.com/FeelsGoodEtc/bb-plugin-spot-chat";
+
+function AboutSpotChat() {
+  return (
+    <p className="spot-chat-about">
+      Spot Chat {packageJson.version}
+      {" · "}
+      <a href={repositoryUrl} target="_blank" rel="noreferrer">Source on GitHub</a>
+      {" · "}
+      <a href={`${repositoryUrl}/blob/main/LICENSE`} target="_blank" rel="noreferrer">MIT License</a>
+    </p>
+  );
+}
+
 function SpotChatWindow() {
   const { threadId, draftKey } = useSyncExternalStore(subscribeToActiveThread, readNativeChat);
   return (
@@ -401,6 +416,7 @@ export default definePluginApp((app) => {
   app.slots.experimental_appOverlay({ id: "launcher", component: WindowLauncher });
   app.slots.settingsSection({ id: "icon", title: "Icon", component: IconSettings });
   app.slots.settingsSection({ id: "defaults", title: "Default model", component: SpotChatSettings });
+  app.slots.settingsSection({ id: "about", component: AboutSpotChat });
   app.slots.navPanel({
     id: "chats",
     path: "chats",
