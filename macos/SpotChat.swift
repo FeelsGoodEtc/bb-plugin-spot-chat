@@ -1,8 +1,11 @@
 import AppKit
 import WebKit
 
-final class SpotChatApp: NSObject, NSApplicationDelegate, NSWindowDelegate, WKNavigationDelegate {
+final class SpotChatApp: NSObject, NSApplicationDelegate, NSWindowDelegate, WKNavigationDelegate, WKScriptMessageHandler {
     private static let windowSizeKey = "SpotChatWindowSize"
+    private static let defaultTitle = "Spot Chat"
+    /// The page posts the open conversation's title here.
+    private static let titleMessage = "spotChatTitle"
     private let url: URL
     private var window: NSWindow?
     private var fullScreenTransition = false
@@ -36,13 +39,14 @@ final class SpotChatApp: NSObject, NSApplicationDelegate, NSWindowDelegate, WKNa
             backing: .buffered,
             defer: false
         )
-        window.title = "Spot Chat"
+        window.title = Self.defaultTitle
         window.minSize = minimumSize
         window.setFrame(frame, display: false)
         window.collectionBehavior = [.fullScreenPrimary]
 
         let configuration = WKWebViewConfiguration()
         configuration.websiteDataStore = .nonPersistent()
+        configuration.userContentController.add(self, name: Self.titleMessage)
         let webView = WKWebView(frame: .zero, configuration: configuration)
         webView.navigationDelegate = self
         window.contentView = webView
@@ -51,6 +55,14 @@ final class SpotChatApp: NSObject, NSApplicationDelegate, NSWindowDelegate, WKNa
         window.makeKeyAndOrderFront(nil)
         window.delegate = self
         NSApp.activate(ignoringOtherApps: true)
+    }
+
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        guard message.name == Self.titleMessage else { return }
+        let text = (message.body as? String)?
+            .components(separatedBy: .newlines).joined(separator: " ")
+            .trimmingCharacters(in: .whitespaces) ?? ""
+        window?.title = text.isEmpty ? Self.defaultTitle : String(text.prefix(200))
     }
 
     func windowDidResize(_ notification: Notification) {

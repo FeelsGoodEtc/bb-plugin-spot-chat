@@ -274,8 +274,21 @@ function AboutSpotChat() {
   );
 }
 
+type TitleBridge = { webkit?: { messageHandlers?: { spotChatTitle?: { postMessage(title: string): void } } } };
+
+/** Shows the open conversation's title in the native Spot Chat window's title bar. */
+function useNativeWindowTitle(threadId: string | null) {
+  const { data } = useSpotChats();
+  const chat = threadId ? data?.chats.find(({ id }) => id === threadId) : undefined;
+  const title = chat?.title?.trim() ?? "";
+  useEffect(() => {
+    (window as TitleBridge).webkit?.messageHandlers?.spotChatTitle?.postMessage(title);
+  }, [title]);
+}
+
 function SpotChatWindow() {
   const { threadId, draftKey } = useSyncExternalStore(subscribeToActiveThread, readNativeChat);
+  useNativeWindowTitle(threadId);
   return (
     <main className="spot-chat-window">
       <SpotChatShell
