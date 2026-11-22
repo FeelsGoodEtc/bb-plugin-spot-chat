@@ -10,18 +10,36 @@ final class SpotChatApp: NSObject, NSApplicationDelegate, NSWindowDelegate, WKNa
     private var window: NSWindow?
     private var fullScreenTransition = false
 
-    init(url: URL) {
+    /// The opening BB window in Cocoa screen coordinates, if BB passed one.
+    private let anchorFrame: NSRect?
+
+    init(url: URL, anchorFrame: NSRect?) {
         self.url = url
+        self.anchorFrame = anchorFrame
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        // Place the window inside the BB window that opened it, below BB's
+        // 48-point title row with a 12-point gap, at its right edge. Without
+        // that frame, fall back to the display beneath the mouse pointer.
+        let topInset: CGFloat = 60
         let pointer = NSEvent.mouseLocation
-        let screen = NSScreen.screens.first { $0.frame.contains(pointer) } ?? NSScreen.main
-        let available = screen?.visibleFrame ?? NSRect(x: 0, y: 0, width: 1440, height: 900)
-        // Leave room for BB's 48-point title row and a 12-point gap below it.
-        let topInset = min(60, max(0, available.height - 240))
-        let usableHeight = available.height - topInset
-        let defaultWidth = floor(available.width / 3)
+        let anchor = anchorFrame
+        let screen = anchor.flatMap { frame in NSScreen.screens.first { $0.frame.contains(NSPoint(x: frame.midX, y: frame.midY)) } }
+            ?? NSScreen.screens.first { $0.frame.contains(pointer) } ?? NSScreen.main
+        let visible = screen?.visibleFrame ?? NSRect(x: 0, y: 0, width: 1440, height: 900)
+        var area = visible
+        var edgeGap: CGFloat = 0
+        if let anchor {
+            let clipped = anchor.intersection(visible)
+            if clipped.width >= 360, clipped.height >= 360 {
+                area = clipped
+                edgeGap = 12
+            }
+        }
+        let inset = min(topInset, max(0, area.height - 240))
+        let usableHeight = area.height - inset - edgeGap
+        let defaultWidth = floor(area.width / 3)
         let minimumSize = NSSize(width: min(defaultWidth, 320), height: min(usableHeight, 240))
         let savedSize = UserDefaults.standard.array(forKey: Self.windowSizeKey) as? [Double]
         let requestedSize: NSSize
@@ -30,9 +48,9 @@ final class SpotChatApp: NSObject, NSApplicationDelegate, NSWindowDelegate, WKNa
         } else {
             requestedSize = NSSize(width: defaultWidth, height: usableHeight)
         }
-        let width = min(available.width, max(minimumSize.width, requestedSize.width))
+        let width = min(area.width - edgeGap, max(minimumSize.width, requestedSize.width))
         let height = min(usableHeight, max(minimumSize.height, requestedSize.height))
-        let frame = NSRect(x: available.maxX - width, y: available.maxY - topInset - height, width: width, height: height)
+        let frame = NSRect(x: area.maxX - edgeGap - width, y: area.maxY - inset - height, width: width, height: height)
         let window = NSWindow(
             contentRect: .zero,
             styleMask: [.titled, .closable, .miniaturizable, .resizable],
@@ -117,15 +135,25 @@ final class SpotChatApp: NSObject, NSApplicationDelegate, NSWindowDelegate, WKNa
     }
 }
 
-guard CommandLine.arguments.count == 2,
+guard (2...3).contains(CommandLine.arguments.count),
       let url = URL(string: CommandLine.arguments[1]),
       url.scheme == "http", url.host == "127.0.0.1", url.port != nil,
       url.path == "/plugins/spot-chat/window" else {
     exit(1)
 }
 
+/// Optional third argument: the BB window as "x,y,width,height" in points,
+/// measured from the top-left corner of the primary display.
+func parseAnchor(_ text: String) -> NSRect? {
+    let values = text.split(separator: ",").compactMap { Double($0) }
+    guard values.count == 4, values.allSatisfy({ $0.isFinite }), values[2] > 0, values[3] > 0,
+          let primary = NSScreen.screens.first else { return nil }
+    return NSRect(x: values[0], y: primary.frame.maxY - values[1] - values[3], width: values[2], height: values[3])
+}
+
 let app = NSApplication.shared
-let delegate = SpotChatApp(url: url)
+let anchorFrame = CommandLine.arguments.count == 3 ? parseAnchor(CommandLine.arguments[2]) : nil
+let delegate = SpotChatApp(url: url, anchorFrame: anchorFrame)
 app.setActivationPolicy(.regular)
 app.delegate = delegate
 

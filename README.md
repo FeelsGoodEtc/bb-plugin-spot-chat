@@ -27,10 +27,10 @@ the Spot Chat window and panel header.
   starts above the underlying composer, when present. Resize it from the left
   edge, bottom edge, or bottom-left corner. The panel saves its own size in
   that BB client.
-- **Separate Window** opens a resizable macOS window on the display beneath
-  the mouse pointer, at the right with room above it for the BB title bar. It
-  restores its last resized dimensions or starts at one third of the display's
-  available width.
+- **Separate Window** opens a resizable macOS window inside the BB window
+  that opened it, at its right edge and below BB's title bar. It restores its
+  last resized dimensions, fitted to the BB window, or starts at one third of
+  the BB window's width.
 
 Each launch gets a blank draft. Sending the first message creates a hidden BB
 thread, using the project, environment and model chosen in the composer. Hidden

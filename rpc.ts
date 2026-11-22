@@ -37,7 +37,16 @@ export type DeleteChatsRequest = z.infer<typeof deleteChatsSchema>;
 export const rpcContract = defineRpcContract({
   launch: {
     /** Whether this client can show a native window on the BB server's Mac. */
-    input: z.object({ separateWindowAvailable: z.boolean() }),
+    input: z.object({
+      separateWindowAvailable: z.boolean(),
+      /** The opening BB window in screen points from the primary display's top-left corner. */
+      anchor: z.object({
+        x: z.number().finite(),
+        y: z.number().finite(),
+        width: z.number().finite().positive(),
+        height: z.number().finite().positive(),
+      }).optional(),
+    }),
     output: z.object({ mode: z.enum(["inside-bb", "separate-window"]) }),
   },
   listChats: { input: z.null(), output: z.object({ chats: z.array(chatSummarySchema) }), tags: () => [chatsTag] },

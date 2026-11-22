@@ -76,6 +76,18 @@ function canOpenSeparateWindow() {
   return desktop !== undefined && (desktop.platform === undefined || desktop.platform === "macos");
 }
 
+/**
+ * The BB window's frame, so the native window opens inside it. A Spot Chat
+ * window opening another one passes nothing and the new window uses the
+ * display beneath the pointer instead of stacking on top of itself.
+ */
+function openingWindowFrame() {
+  if (window.location.pathname.startsWith("/plugins/spot-chat/window")) return undefined;
+  const { screenX: x, screenY: y, outerWidth: width, outerHeight: height } = window;
+  if (![x, y, width, height].every(Number.isFinite) || width <= 0 || height <= 0) return undefined;
+  return { x, y, width, height };
+}
+
 function requestChat() {
   launchRequests.dispatchEvent(new Event("open"));
 }
@@ -100,7 +112,7 @@ function WindowLauncher() {
       }
       const focused = document.activeElement;
       setError("");
-      void rpc.call("launch", { separateWindowAvailable: canOpenSeparateWindow() }).then(({ mode }) => {
+      void rpc.call("launch", { separateWindowAvailable: canOpenSeparateWindow(), anchor: openingWindowFrame() }).then(({ mode }) => {
         if (disposed || mode !== "inside-bb") return;
         if (focused instanceof HTMLElement && !focused.closest(".spot-chat-floating")) opener.current = focused;
         setFloatingDraftKey(newDraftKey());

@@ -147,7 +147,7 @@ export default function spotChat(bb: BbPluginApi) {
       bb.rpc.experimental_invalidate([chatsTag]);
       return { deleted, failed };
     },
-    async launch({ separateWindowAvailable }) {
+    async launch({ separateWindowAvailable, anchor }) {
       const { openIn } = await settings.get();
       // Browsers, the mobile app, and clients on other machines cannot see a
       // window opened on the server's Mac, so they always get the in-app panel.
@@ -158,7 +158,9 @@ export default function spotChat(bb: BbPluginApi) {
       const url = new URL("/plugins/spot-chat/window", bb.server.loopbackBaseUrl);
       const appPath = appCandidates.find((candidate) => existsSync(candidate));
       if (!appPath) throw new Error(missingAppMessage);
-      await run("/usr/bin/open", ["-n", "-a", appPath, "--args", url.href]);
+      const args = ["-n", "-a", appPath, "--args", url.href];
+      if (anchor) args.push([anchor.x, anchor.y, anchor.width, anchor.height].map((value) => Math.round(value)).join(","));
+      await run("/usr/bin/open", args);
       return { mode: "separate-window" } as const;
     },
   });
