@@ -21,7 +21,9 @@
 }
 
 .spot-chat-floating {
-  --spot-chat-top: calc(var(--bb-app-chrome-row-height, 3rem) + var(--spot-chat-inset));
+  /* Below BB's title row and, on phones, the status bar above it. */
+  --spot-chat-top: calc(env(safe-area-inset-top, 0px) + var(--bb-app-chrome-row-height, 3rem) + var(--spot-chat-inset));
+  --spot-chat-bottom: calc(var(--bb-content-bottom-inset, 0px) + var(--spot-chat-inset));
   position: fixed;
   top: var(--spot-chat-top);
   right: var(--spot-chat-inset);
@@ -29,7 +31,7 @@
   display: flex;
   flex-direction: column;
   max-width: calc(100vw - 2 * var(--spot-chat-inset));
-  max-height: max(1px, calc(100dvh - var(--spot-chat-top) - var(--spot-chat-inset)));
+  max-height: max(1px, calc(100dvh - var(--spot-chat-top) - var(--spot-chat-bottom)));
   border: 1px solid var(--border);
   border-radius: 12px;
   background: var(--background);
