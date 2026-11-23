@@ -3,6 +3,8 @@
 A BB plugin that opens a fresh chat in a floating panel or a separate macOS
 window, so a quick question does not interrupt the thread you are in.
 
+![Spot Chat demo: open the panel, ask a question, continue a past conversation](docs/spot-chat-demo.gif)
+
 ## Install
 
 ```sh
@@ -61,6 +63,24 @@ from the BB desktop app on the Mac that runs the BB server. Web browsers, the
 mobile app, and desktop apps connected to another machine always open
 **Inside BB**, whatever the setting says. The Inside BB panel remembers its size
 separately in each browser or app.
+
+## Screenshots
+
+**Inside BB** — a floating panel over the current thread:
+
+![Spot Chat panel inside BB](docs/inside-bb-panel.png)
+
+**Separate Window** (macOS) — with Spot Chat defaults open above the composer:
+
+![Spot Chat in a separate macOS window](docs/separate-window.png)
+
+**Spot Chats** in the navigation rail lists every conversation:
+
+![Spot Chats history panel](docs/spot-chats-history.png)
+
+**Settings → Spot Chat**:
+
+![Spot Chat settings](docs/settings.png)
 
 ## Native window
 
