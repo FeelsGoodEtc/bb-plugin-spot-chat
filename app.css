@@ -1,7 +1,9 @@
 .spot-chat-window {
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  /* Above BB's page underneath, below BB's menus and popovers (z-index 50),
+     so the model and project pickers open on top of the window. */
+  z-index: 45;
   display: flex;
   flex-direction: column;
   background: var(--background);
@@ -105,8 +107,8 @@
 }
 
 .spot-chat-defaults-disclosure {
-  width: min(100%, 48rem);
-  margin: 0 auto 8px;
+  /* Line up with the composer below, which spans the full width. */
+  margin: 0 4px 8px;
   font-size: 12px;
 }
 
