@@ -1,6 +1,6 @@
 {
   "name": "bb-plugin-spot-chat",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Ask a quick question in a fresh BB chat without leaving your current thread. It opens as a panel inside BB that the same button or shortcut closes, or as a separate window (macOS only). It uses the model BB would pick for a new chat unless you choose one for Spot Chat.",
   "license": "MIT",
   "author": "FeelsGoodEtc",
@@ -24,10 +24,10 @@
     "skills": []
   },
   "dependencies": {
+    "@get-bb/plugin-sdk": "0.6.157",
     "zod": "^4.6.5"
   },
   "devDependencies": {
-    "@get-bb/plugin-sdk": "0.6.157",
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
