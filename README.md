@@ -8,7 +8,7 @@ window, so a quick question does not interrupt the thread you are in.
 ## Install
 
 ```sh
-bb plugin install git:https://github.com/FeelsGoodEtc/bb-plugin-spot-chat@^0.1.0
+bb plugin install git:https://github.com/FeelsGoodEtc/bb-plugin-spot-chat@^0.1.2
 ```
 
 BB builds the plugin on install. Requires bb 0.50 or later.
